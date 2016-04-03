@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html  lang="en" ng-app="brightauthor">
+<head>
+    <title>BrightAuthor</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta charset="UTF-8">
+
+    <!--<link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <style>
+        html, body, input, select, textarea {
+            font-size: 1.05em;
+        }
+
+        .nav, .pagination, .carousel, .panel-title a {
+            cursor: pointer;
+        }
+    </style>
+
+    <script src="lib/date.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+
+    <script src="app.js"></script>
+
+    <script src="brightauthor.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div ng-view></div>
+    </div>
+</body>
+</html>
