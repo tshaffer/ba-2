@@ -216,6 +216,12 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     Menu.setApplicationMenu(menu);
     console.log("set application menu");
 
+    // initialize scope parameters
+    $scope.signName = "";
+    $scope.zoneName = "";
+    $scope.zoneId = "";
+    $scope.zoneType = "";
+
     function newProject() {
 
     };
@@ -262,6 +268,24 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
                 console.log(err);
                 return;
             }
+            parseBPF(result);
         });
     };
+
+    function parseBPF(signAsJSON) {
+
+        $scope.$apply( function() {
+            $scope.signName = signAsJSON.BrightAuthor.meta[0].name[0];
+
+            $scope.zone = signAsJSON.BrightAuthor.zones[0].zone[0];
+
+            $scope.zoneName = $scope.zone.name[0];
+            $scope.zoneId = $scope.zone.id[0];
+
+            $scope.zoneType = $scope.zone.type[0];
+
+            $scope.zoneSpecificParameters = $scope.zone.zoneSpecificParameters[0];
+            $scope.playlist = $scope.zone.playlist[0];
+        });
+    }
 }]);
