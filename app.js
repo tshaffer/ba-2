@@ -1,5 +1,5 @@
 angular
-    .module('brightauthor', ['ngRoute'])
+    .module('brightauthor', ['ngRoute', 'ui.grid', 'ui.grid.cellNav'])
 
     .config(['$routeProvider', function ($routeProvider) {
 

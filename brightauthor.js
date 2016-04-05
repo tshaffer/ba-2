@@ -10,6 +10,39 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     const Menu = remote.Menu;
 
     const fs = require('fs');
+    var path = require('path');
+
+// for thumbnails
+    var numColumns = 2;
+    $scope.thumbs = [];
+
+    var thumbTemplate = "";
+    thumbTemplate  = "<div class='ui-grid-cell-contents'>";
+    thumbTemplate += "<img ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
+    thumbTemplate += "</div>";
+
+    var thumbColumns = [];
+
+    $scope.gridOptions = {
+        showHeader: false,
+        modifierKeysToMultiSelectCells: true,
+        rowHeight:200,
+        columnDefs: thumbColumns
+    };
+    $scope.gridOptions.data = $scope.thumbs;
+
+    for (i = 0; i < numColumns; i++) {
+        thumbColumn = {};
+        thumbColumn.name = 'image' + i.toString();
+        thumbColumn.field = thumbColumn.name;
+        thumbColumn.cellTemplate = thumbTemplate;
+
+        thumbColumns.push(thumbColumn);
+    }
+
+
+
+
 
     var parseXML = require('xml2js').parseString;
 
@@ -223,8 +256,85 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     $scope.zoneType = "";
 
     function newProject() {
-
+        buildMediaLibrary();
     };
+
+    function buildMediaLibrary() {
+
+        var suffix = "jpg";
+
+        // get urls for thumbs
+        // TBD - see tagPhotos.js, getPhotosPromise
+        // in this code, each thumbUrl will be file:///
+        // http://stackoverflow.com/questions/12711584/how-to-specify-a-local-file-within-html-using-the-file-scheme
+        var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
+
+        // url from shafferoto
+        // http://localhost:3000/photos/testPhotos/New Orleans/IMG_1624_thumb.JPG
+
+        var columnIndex = 0;
+        var imageItemThumb = {};
+
+        var files = fs.readdirSync(dir);
+        files.forEach(function(file) {
+
+            var filePath = path.format({
+                root: "/",
+                dir: dir,
+                base: file,
+                ext: "." + suffix,
+                name: "file"
+            });
+
+            var url = path.relative(dir, filePath);
+            var filePath = filePath;
+
+            var image = {};
+
+
+            // this appears to only be the file name
+            // image.thumbUrl = url;
+            image.thumbUrl = "http://localhost:3000/public/" + url;
+
+            image.width = 200;
+            image.height = 200;
+            image.maxHeight = 200;
+            //console.log("width/height ratio is: " + (image.width / image.height).toString());
+
+            var key = "image" + columnIndex.toString();
+            imageItemThumb[key] = image;
+            columnIndex++;
+
+            if ((columnIndex % numColumns) == 0) {
+                $scope.thumbs.push(imageItemThumb);
+                imageItemThumb = {};
+                columnIndex = 0;
+            }
+        });
+
+
+
+
+
+
+
+
+        $scope.gridOptions.onRegisterApi = function(gridApi){
+            $scope.gridApi = gridApi;
+            gridApi.cellNav.on.navigate($scope,function(newRowCol, oldRowCol){
+                console.log('navigation event');
+            });
+        };
+
+        $scope.getCurrentSelection = function() {
+            var selectedThumbs = [];
+            var currentSelection = $scope.gridApi.cellNav.getCurrentSelection();
+            for (var i = 0; i < currentSelection.length; i++) {
+                selectedThumbs.push(currentSelection[i].row.entity[currentSelection[i].col.name]);
+            }
+            return selectedThumbs;
+        };
+    }
 
     function openProject() {
 
