@@ -17,8 +17,11 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     $scope.thumbs = [];
 
     var thumbTemplate = "";
-    thumbTemplate  = "<div class='ui-grid-cell-contents'>";
-    thumbTemplate += "<img ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
+    thumbTemplate  = "<div><div class='ui-grid-cell-contents'>";
+    // thumbTemplate += "<img ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
+    // thumbTemplate += "<img height='125px' width='125px' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
+    thumbTemplate += "<img height='75px' width='75px' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
+    thumbTemplate += "</div>";
     thumbTemplate += "</div>";
 
     var thumbColumns = [];
@@ -26,7 +29,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     $scope.gridOptions = {
         showHeader: false,
         modifierKeysToMultiSelectCells: true,
-        rowHeight:200,
+        rowHeight:150,
         columnDefs: thumbColumns
     };
     $scope.gridOptions.data = $scope.thumbs;
@@ -261,6 +264,8 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
     function buildMediaLibrary() {
 
+        // $scope.thumbs = [];
+
         var suffix = "jpg";
 
         // get urls for thumbs
@@ -276,40 +281,45 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         var imageItemThumb = {};
 
         var files = fs.readdirSync(dir);
-        files.forEach(function(file) {
 
-            var filePath = path.format({
-                root: "/",
-                dir: dir,
-                base: file,
-                ext: "." + suffix,
-                name: "file"
+        $scope.$apply(function() {
+            files.forEach(function(file) {
+
+                var filePath = path.format({
+                    root: "/",
+                    dir: dir,
+                    base: file,
+                    ext: "." + suffix,
+                    name: "file"
+                });
+
+                var url = path.relative(dir, filePath);
+                var filePath = filePath;
+
+                var image = {};
+
+
+                // this appears to only be the file name
+                // image.thumbUrl = url;
+                // image.thumbUrl = "http://localhost:3000/public/" + url;
+                image.thumbUrl = "public/" + url;
+
+                image.width = 125;
+                image.height = 125;
+                image.maxHeight = 125;
+                //console.log("width/height ratio is: " + (image.width / image.height).toString());
+
+                var key = "image" + columnIndex.toString();
+                imageItemThumb[key] = image;
+                columnIndex++;
+
+                if ((columnIndex % numColumns) == 0) {
+                    $scope.thumbs.push(imageItemThumb);
+                    imageItemThumb = {};
+                    columnIndex = 0;
+                }
             });
 
-            var url = path.relative(dir, filePath);
-            var filePath = filePath;
-
-            var image = {};
-
-
-            // this appears to only be the file name
-            // image.thumbUrl = url;
-            image.thumbUrl = "http://localhost:3000/public/" + url;
-
-            image.width = 200;
-            image.height = 200;
-            image.maxHeight = 200;
-            //console.log("width/height ratio is: " + (image.width / image.height).toString());
-
-            var key = "image" + columnIndex.toString();
-            imageItemThumb[key] = image;
-            columnIndex++;
-
-            if ((columnIndex % numColumns) == 0) {
-                $scope.thumbs.push(imageItemThumb);
-                imageItemThumb = {};
-                columnIndex = 0;
-            }
         });
 
 
@@ -326,14 +336,14 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
             });
         };
 
-        $scope.getCurrentSelection = function() {
-            var selectedThumbs = [];
-            var currentSelection = $scope.gridApi.cellNav.getCurrentSelection();
-            for (var i = 0; i < currentSelection.length; i++) {
-                selectedThumbs.push(currentSelection[i].row.entity[currentSelection[i].col.name]);
-            }
-            return selectedThumbs;
-        };
+        // $scope.getCurrentSelection = function() {
+        //     var selectedThumbs = [];
+        //     var currentSelection = $scope.gridApi.cellNav.getCurrentSelection();
+        //     for (var i = 0; i < currentSelection.length; i++) {
+        //         selectedThumbs.push(currentSelection[i].row.entity[currentSelection[i].col.name]);
+        //     }
+        //     return selectedThumbs;
+        // };
     }
 
     function openProject() {
