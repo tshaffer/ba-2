@@ -18,7 +18,8 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     var thumbTemplate  = "<div class='ui-grid-cell-contents'>";
     // thumbTemplate += "<img ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
     // thumbTemplate += "<img height='125px' width='125px' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
-    thumbTemplate += "<img style='max-height: 100px; height: 100px; width: 100px;' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
+    // thumbTemplate += "<img style='max-height: 100px; height: 100px; width: 100px;' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
+    thumbTemplate += "<img draggable='true' ondragstart='dragstart_handler(event);' style='max-height: 100px; height: 100px; width: 100px;' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
     thumbTemplate += "</div>";
 
     $scope.thumbColumns = [];
@@ -304,62 +305,71 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     $scope.zoneId = "";
     $scope.zoneType = "";
 
+    buildMediaLibrary();
+
     function newProject() {
-        buildMediaLibrary();
+        // buildMediaLibrary();
     };
+
+    function buildImageItemThumbs(files) {
+
+        var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
+        var suffix = "jpg";
+
+        var columnIndex = 0;
+        var imageItemThumb = {};
+
+        files.forEach(function(file) {
+
+            var filePath = path.format({
+                root: "/",
+                dir: dir,
+                base: file,
+                ext: "." + suffix,
+                name: "file"
+            });
+
+            var url = path.relative(dir, filePath);
+            var filePath = filePath;
+
+            var image = {};
+
+
+            image.thumbUrl = "public/" + url;
+
+            // image.width = 125;
+            // image.height = 125;
+            // image.maxHeight = 125;
+            //console.log("width/height ratio is: " + (image.width / image.height).toString());
+
+            var key = "image" + columnIndex.toString();
+            imageItemThumb[key] = image;
+            columnIndex++;
+
+            if ((columnIndex % numColumns) == 0) {
+                $scope.thumbs.push(imageItemThumb);
+                imageItemThumb = {};
+                columnIndex = 0;
+            }
+        });
+    }
 
     function buildMediaLibrary() {
 
         // for some reason, the following line prevents the thumbs from appearing
         // $scope.thumbs = [];
 
-        var suffix = "jpg";
 
         // get urls for thumbs
         var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
 
-        var columnIndex = 0;
-        var imageItemThumb = {};
 
         var files = fs.readdirSync(dir);
 
-        $scope.$apply(function() {
-            files.forEach(function(file) {
+        // $scope.$apply(function() {
+            buildImageItemThumbs(files);
+        // });
 
-                var filePath = path.format({
-                    root: "/",
-                    dir: dir,
-                    base: file,
-                    ext: "." + suffix,
-                    name: "file"
-                });
-
-                var url = path.relative(dir, filePath);
-                var filePath = filePath;
-
-                var image = {};
-
-
-                image.thumbUrl = "public/" + url;
-
-                // image.width = 125;
-                // image.height = 125;
-                // image.maxHeight = 125;
-                //console.log("width/height ratio is: " + (image.width / image.height).toString());
-
-                var key = "image" + columnIndex.toString();
-                imageItemThumb[key] = image;
-                columnIndex++;
-
-                if ((columnIndex % numColumns) == 0) {
-                    $scope.thumbs.push(imageItemThumb);
-                    imageItemThumb = {};
-                    columnIndex = 0;
-                }
-            });
-
-        });
-        
         // $scope.gridOptions.onRegisterApi = function(gridApi){
         //     $scope.gridApi = gridApi;
         //     gridApi.cellNav.on.navigate($scope,function(newRowCol, oldRowCol){
@@ -439,4 +449,12 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
             $scope.playlist = $scope.zone.playlist[0];
         });
     }
+
+    dragstart_handler = function(ev) {
+        console.log("dragStart");
+        // Add the target element's id to the data transfer object
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+
 }]);
