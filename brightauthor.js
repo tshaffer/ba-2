@@ -16,7 +16,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     var numColumns = 2;
     $scope.thumbs = [];
 
-    var thumbTemplate  = "<div class='ui-grid-cell-contents' style='background-color: orange'>";
+    var thumbTemplate  = "<div class='ui-grid-cell-contents'>";
     // thumbTemplate += "<img ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
     // thumbTemplate += "<img height='125px' width='125px' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
     thumbTemplate += "<img style='max-height: 100px; height: 100px; width: 100px;' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
