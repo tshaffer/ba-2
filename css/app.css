@@ -1,4 +1,9 @@
+body {
+    width: 1600px;
+    height: 1000px;
+}
+
 .photoGrid {
-    width: 600px;
+    width: 800px;
     height: 800px;
 }

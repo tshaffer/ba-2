@@ -16,33 +16,81 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     var numColumns = 2;
     $scope.thumbs = [];
 
-    var thumbTemplate = "";
-    thumbTemplate  = "<div><div class='ui-grid-cell-contents'>";
+    var thumbTemplate  = "<div class='ui-grid-cell-contents' style='background-color: orange'>";
     // thumbTemplate += "<img ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
     // thumbTemplate += "<img height='125px' width='125px' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
-    thumbTemplate += "<img height='75px' width='75px' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
-    thumbTemplate += "</div>";
+    thumbTemplate += "<img style='max-height: 100px; height: 100px; width: 100px;' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
     thumbTemplate += "</div>";
 
-    var thumbColumns = [];
+    $scope.thumbColumns = [];
 
     $scope.gridOptions = {
-        showHeader: false,
+        showHeader: true,
         modifierKeysToMultiSelectCells: true,
-        rowHeight:150,
-        columnDefs: thumbColumns
+        rowHeight:110,
+        columnDefs: $scope.thumbColumns
     };
     $scope.gridOptions.data = $scope.thumbs;
 
     for (i = 0; i < numColumns; i++) {
-        thumbColumn = {};
+        var thumbColumn = {};
         thumbColumn.name = 'image' + i.toString();
         thumbColumn.field = thumbColumn.name;
         thumbColumn.cellTemplate = thumbTemplate;
 
-        thumbColumns.push(thumbColumn);
+
+        thumbColumn.width = 150;
+        thumbColumn.maxWidth = 150;
+        thumbColumn.resizable = true;
+        thumbColumn.displayName = thumbColumn.name;
+
+        $scope.thumbColumns.push(thumbColumn);
     }
 
+    // var suffix = "jpg";
+    //
+    // // get urls for thumbs
+    // var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
+    //
+    // var columnIndex = 0;
+    // var imageItemThumb = {};
+    //
+    // var files = fs.readdirSync(dir);
+    //
+    // files.forEach(function(file) {
+    //
+    //     var filePath = path.format({
+    //         root: "/",
+    //         dir: dir,
+    //         base: file,
+    //         ext: "." + suffix,
+    //         name: "file"
+    //     });
+    //
+    //     var url = path.relative(dir, filePath);
+    //     var filePath = filePath;
+    //
+    //     var image = {};
+    //
+    //
+    //     image.thumbUrl = "public/" + url;
+    //
+    //     // image.width = 125;
+    //     // image.height = 125;
+    //     // image.maxHeight = 125;
+    //     //console.log("width/height ratio is: " + (image.width / image.height).toString());
+    //
+    //     var key = "image" + columnIndex.toString();
+    //     imageItemThumb[key] = image;
+    //     columnIndex++;
+    //
+    //     if ((columnIndex % numColumns) == 0) {
+    //         $scope.thumbs.push(imageItemThumb);
+    //         imageItemThumb = {};
+    //         columnIndex = 0;
+    //     }
+    //
+    // });
 
 
 
@@ -264,14 +312,12 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
     function buildMediaLibrary() {
 
+        // for some reason, the following line prevents the thumbs from appearing
         // $scope.thumbs = [];
 
         var suffix = "jpg";
 
         // get urls for thumbs
-        // TBD - see tagPhotos.js, getPhotosPromise
-        // in this code, each thumbUrl will be file:///
-        // http://stackoverflow.com/questions/12711584/how-to-specify-a-local-file-within-html-using-the-file-scheme
         var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
 
         // url from shafferoto
@@ -299,14 +345,11 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
                 var image = {};
 
 
-                // this appears to only be the file name
-                // image.thumbUrl = url;
-                // image.thumbUrl = "http://localhost:3000/public/" + url;
                 image.thumbUrl = "public/" + url;
 
-                image.width = 125;
-                image.height = 125;
-                image.maxHeight = 125;
+                // image.width = 125;
+                // image.height = 125;
+                // image.maxHeight = 125;
                 //console.log("width/height ratio is: " + (image.width / image.height).toString());
 
                 var key = "image" + columnIndex.toString();
@@ -329,12 +372,12 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
 
 
-        $scope.gridOptions.onRegisterApi = function(gridApi){
-            $scope.gridApi = gridApi;
-            gridApi.cellNav.on.navigate($scope,function(newRowCol, oldRowCol){
-                console.log('navigation event');
-            });
-        };
+        // $scope.gridOptions.onRegisterApi = function(gridApi){
+        //     $scope.gridApi = gridApi;
+        //     gridApi.cellNav.on.navigate($scope,function(newRowCol, oldRowCol){
+        //         console.log('navigation event');
+        //     });
+        // };
 
         // $scope.getCurrentSelection = function() {
         //     var selectedThumbs = [];
