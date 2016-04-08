@@ -1,14 +1,22 @@
 <div id="baScreen">
     <p>this is brightauthor.html</p>
 
-    <!--<h1>{{title}}</h1>-->
-
     <p>Presentation name: {{signName}}</p>
     <p>Zone name: {{zoneName}}</p>
     <p>Zone id: {{zoneId}}</p>
     <p>Zone type: {{zoneType}}</p>
 
-    <img draggable="true" ondragstart="dragstart_handler(event)" src="public/IMG_1624_thumb.JPG" style="max-height: 100px; height: 100px; width: 100px;">
     <p>Media Library:</p>
-    <div id="grid" ui-grid="gridOptions" ui-grid-cellNav class="photoGrid"></div>
+
+    <table>
+        <tr ng-repeat="thumb in thumbs">
+            <td style="width: 110px; height:110px;">
+                <img ng-src="{{thumb.image0.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="dragstart_handler(event);">
+            </td>
+            <td style="width: 110px; height:110px;">
+                <img ng-src="{{thumb.image1.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="dragstart_handler(event);">
+            </td>
+        </tr>
+    </table>
+
 </div>

@@ -1,6 +1,6 @@
 angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', function($scope ) {
 
-    $scope.title = "pizza";
+    $scope.thumbs = [];
 
     console.log("ba.js invoked");
 
@@ -13,91 +13,10 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
 // for thumbnails
     var numColumns = 2;
-    $scope.thumbs = [];
-
-    var thumbTemplate  = "<div class='ui-grid-cell-contents'>";
-    // thumbTemplate += "<img ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
-    // thumbTemplate += "<img height='125px' width='125px' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
-    // thumbTemplate += "<img style='max-height: 100px; height: 100px; width: 100px;' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
-    thumbTemplate += "<img draggable='true' ondragstart='dragstart_handler(event);' style='max-height: 100px; height: 100px; width: 100px;' ng-src=\"{{grid.getCellValue(row, col).thumbUrl}}\">";
-    thumbTemplate += "</div>";
-
-    $scope.thumbColumns = [];
-
-    $scope.gridOptions = {
-        showHeader: false,
-        modifierKeysToMultiSelectCells: true,
-        rowHeight:110,
-        columnDefs: $scope.thumbColumns
-    };
-    $scope.gridOptions.data = $scope.thumbs;
-
-    for (i = 0; i < numColumns; i++) {
-        var thumbColumn = {};
-        thumbColumn.name = 'image' + i.toString();
-        thumbColumn.field = thumbColumn.name;
-        thumbColumn.cellTemplate = thumbTemplate;
-
-        thumbColumn.width = 125;
-        thumbColumn.maxWidth = 125;
-        thumbColumn.resizable = true;
-        // thumbColumn.displayName = thumbColumn.name;
-
-        $scope.thumbColumns.push(thumbColumn);
-    }
-
-    // var suffix = "jpg";
-    //
-    // // get urls for thumbs
-    // var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
-    //
-    // var columnIndex = 0;
-    // var imageItemThumb = {};
-    //
-    // var files = fs.readdirSync(dir);
-    //
-    // files.forEach(function(file) {
-    //
-    //     var filePath = path.format({
-    //         root: "/",
-    //         dir: dir,
-    //         base: file,
-    //         ext: "." + suffix,
-    //         name: "file"
-    //     });
-    //
-    //     var url = path.relative(dir, filePath);
-    //     var filePath = filePath;
-    //
-    //     var image = {};
-    //
-    //
-    //     image.thumbUrl = "public/" + url;
-    //
-    //     // image.width = 125;
-    //     // image.height = 125;
-    //     // image.maxHeight = 125;
-    //     //console.log("width/height ratio is: " + (image.width / image.height).toString());
-    //
-    //     var key = "image" + columnIndex.toString();
-    //     imageItemThumb[key] = image;
-    //     columnIndex++;
-    //
-    //     if ((columnIndex % numColumns) == 0) {
-    //         $scope.thumbs.push(imageItemThumb);
-    //         imageItemThumb = {};
-    //         columnIndex = 0;
-    //     }
-    //
-    // });
-
-
-
 
     var parseXML = require('xml2js').parseString;
 
     var baTemplate = [
-
         {
             label: 'File',
             submenu: [
@@ -106,7 +25,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
                     accelerator: 'Command+N',
                     click: function() {
                         console.log("newProject clicked");
-                        newProject();
+                        $scope.newProject();
                     }
                 },
                 {
@@ -305,13 +224,11 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     $scope.zoneId = "";
     $scope.zoneType = "";
 
-    buildMediaLibrary();
+    $scope.newProject = function() {
+        // $scope.buildMediaLibrary();
+    }
 
-    function newProject() {
-        // buildMediaLibrary();
-    };
-
-    function buildImageItemThumbs(files) {
+    $scope.buildImageItemThumbs = function(files) {
 
         var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
         var suffix = "jpg";
@@ -334,7 +251,6 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
             var image = {};
 
-
             image.thumbUrl = "public/" + url;
 
             // image.width = 125;
@@ -354,7 +270,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         });
     }
 
-    function buildMediaLibrary() {
+    $scope.buildMediaLibrary = function() {
 
         // for some reason, the following line prevents the thumbs from appearing
         // $scope.thumbs = [];
@@ -366,8 +282,9 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
         var files = fs.readdirSync(dir);
 
+        // if this function is invoked on startup, $apply shouldn't be called as this code is already in a digest cycle
         // $scope.$apply(function() {
-            buildImageItemThumbs(files);
+            $scope.buildImageItemThumbs(files);
         // });
 
         // $scope.gridOptions.onRegisterApi = function(gridApi){
@@ -456,5 +373,6 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         ev.dataTransfer.setData("text", ev.target.id);
     }
 
+    $scope.buildMediaLibrary();
 
 }]);
