@@ -4,7 +4,6 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
     console.log("ba.js invoked");
 
-//const dialog = require('electron').remote.dialog;
     const remote = require('electron').remote;
     const dialog = remote.dialog;
     const Menu = remote.Menu;
@@ -25,7 +24,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     $scope.thumbColumns = [];
 
     $scope.gridOptions = {
-        showHeader: true,
+        showHeader: false,
         modifierKeysToMultiSelectCells: true,
         rowHeight:110,
         columnDefs: $scope.thumbColumns
@@ -38,11 +37,10 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         thumbColumn.field = thumbColumn.name;
         thumbColumn.cellTemplate = thumbTemplate;
 
-
-        thumbColumn.width = 150;
-        thumbColumn.maxWidth = 150;
+        thumbColumn.width = 125;
+        thumbColumn.maxWidth = 125;
         thumbColumn.resizable = true;
-        thumbColumn.displayName = thumbColumn.name;
+        // thumbColumn.displayName = thumbColumn.name;
 
         $scope.thumbColumns.push(thumbColumn);
     }
@@ -320,9 +318,6 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         // get urls for thumbs
         var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
 
-        // url from shafferoto
-        // http://localhost:3000/photos/testPhotos/New Orleans/IMG_1624_thumb.JPG
-
         var columnIndex = 0;
         var imageItemThumb = {};
 
@@ -364,14 +359,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
             });
 
         });
-
-
-
-
-
-
-
-
+        
         // $scope.gridOptions.onRegisterApi = function(gridApi){
         //     $scope.gridApi = gridApi;
         //     gridApi.cellNav.on.navigate($scope,function(newRowCol, oldRowCol){
