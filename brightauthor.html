@@ -4,13 +4,13 @@
 
         <table class="mediaLibraryTable">
             <tr ng-repeat="thumb in mediaLibraryThumbs">
-                <td class="mediaLibraryThumbBox">
+                <td>
                     <div class="mediaLibraryThumbDiv">
                         <img id="{{thumb.column0.id}}" data-name="{{thumb.column0.fileName}}" data-path="{{thumb.column0.path}}" ng-src="{{thumb.column0.thumbUrl}}" class="mediaLibraryThumbImg" draggable="true" ondragstart="mediaLibraryDragStartHandler(event);">
                         <p class="mediaLibraryThumbLbl">{{thumb.column0.fileName}}</p>
                     </div>
                 </td>
-                <td class="mediaLibraryThumbBox">
+                <td>
                     <div class="mediaLibraryThumbDiv">
                         <img id="{{thumb.column1.id}}" data-name="{{thumb.column1.fileName}}" data-path="{{thumb.column1.path}}" ng-src="{{thumb.column1.thumbUrl}}" class="mediaLibraryThumbImg" draggable="true" ondragstart="mediaLibraryDragStartHandler(event);">
                         <p class="mediaLibraryThumbLbl">{{thumb.column0.fileName}}</p>
@@ -23,8 +23,9 @@
     <div class="flex-item" style="margin-left: 8px;">
         Zone 1: Video or Images: Playlist
         <ul class="flex-container wrap">
-            <li ng-repeat="thumb in playlistThumbs" class="flex-item" style="width: 110px; height:110px;" ondrop="playlistDropHandler(event);" ondragover="playlistDragOverHandler(event);">
-                <img id="{{thumb.id}}" ng-src="{{thumb.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="playlistDragStartHandler(event);">
+            <li ng-repeat="thumb in playlistThumbs" class="flex-item mediaLibraryThumbDiv" ondrop="playlistDropHandler(event);" ondragover="playlistDragOverHandler(event);">
+                <img id="{{thumb.id}}" ng-src="{{thumb.thumbUrl}}" class="mediaLibraryThumbImg" draggable="true" ondragstart="playlistDragStartHandler(event);">
+                <p class="mediaLibraryThumbLbl">{{thumb.stateName}}</p>
             </li>
         </ul>
     </div>

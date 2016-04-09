@@ -359,6 +359,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         // Add the target element's id to the data transfer object
         // ev.dataTransfer.setData("text", ev.target.id);
         ev.dataTransfer.setData("path", ev.target.dataset.path);
+        ev.dataTransfer.setData("name", ev.target.dataset.name);
         ev.dataTransfer.dropEffect = "copy";
     }
 
@@ -384,10 +385,12 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
         // get playlist item to add to playlist
         var path = ev.dataTransfer.getData("path");
-
+        var stateName = ev.dataTransfer.getData("name");
+        
         // specify playlist item to drop
         var playlistThumb = {};
         playlistThumb.thumbUrl = "public/" + path;
+        playlistThumb.stateName = stateName;
 
         // figure out where to drop it
         //      get id of playlist item that was drop target
