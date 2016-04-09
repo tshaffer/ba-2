@@ -229,63 +229,6 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         // $scope.buildMediaLibrary();
     }
 
-    $scope.buildImageItemThumbs = function() {
-
-        var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
-        var suffix = "jpg";
-
-        var thumbCount = 0;
-        var columnIndex = 0;
-        var imageItemThumb = {};
-
-        var files = fs.readdirSync(dir);
-        files.forEach(function(file) {
-
-            var filePath = path.format({
-                root: "/",
-                dir: dir,
-                base: file,
-                ext: "." + suffix,
-                name: "file"
-            });
-
-            var url = path.relative(dir, filePath);
-            var filePath = filePath;
-
-            var thumb = {};
-
-            thumb.id = thumbCount.toString();
-            thumbCount++;
-            thumb.thumbUrl = "public/" + url;
-
-            var keyColumn = "column" + columnIndex.toString();
-            imageItemThumb[keyColumn] = thumb;
-            columnIndex++;
-
-            if ((columnIndex % numColumns) == 0) {
-                $scope.mediaLibraryThumbs.push(imageItemThumb);
-                imageItemThumb = {};
-                columnIndex = 0;
-            }
-        });
-        
-        // need a thumb that tells users to drag / drop here
-        playlistThumb = {};
-        playlistThumb.thumbUrl = $scope.mediaLibraryThumbs[0].column0.thumbUrl;
-        $scope.playlistThumbs.push(playlistThumb);
-    }
-
-    $scope.buildMediaLibrary = function() {
-
-        // for some reason, the following line prevents the thumbs from appearing
-        // $scope.mediaLibraryThumbs = [];
-
-        // if this function is invoked on startup, $apply shouldn't be called as this code is already in a digest cycle
-        // $scope.$apply(function() {
-            $scope.buildImageItemThumbs();
-        // });
-    }
-
     function openProject() {
 
         console.log("openProject");
@@ -349,10 +292,70 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         });
     }
 
+    $scope.buildImageItemThumbs = function() {
+
+        var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
+        var suffix = "jpg";
+
+        var thumbCount = 0;
+        var columnIndex = 0;
+        var imageItemThumb = {};
+
+        var files = fs.readdirSync(dir);
+        files.forEach(function(file) {
+
+            var filePath = path.format({
+                root: "/",
+                dir: dir,
+                base: file,
+                ext: "." + suffix,
+                name: "file"
+            });
+
+            var url = path.relative(dir, filePath);
+            var filePath = filePath;
+
+            var thumb = {};
+
+            thumb.id = thumbCount.toString();
+            thumb.thumbUrl = "public/" + url;
+            thumb.path = url;
+
+            thumbCount++;
+
+            var keyColumn = "column" + columnIndex.toString();
+            imageItemThumb[keyColumn] = thumb;
+            columnIndex++;
+
+            if ((columnIndex % numColumns) == 0) {
+                $scope.mediaLibraryThumbs.push(imageItemThumb);
+                imageItemThumb = {};
+                columnIndex = 0;
+            }
+        });
+        
+        // need a thumb that tells users to drag / drop here
+        playlistThumb = {};
+        playlistThumb.thumbUrl = $scope.mediaLibraryThumbs[0].column0.thumbUrl;
+        $scope.playlistThumbs.push(playlistThumb);
+    }
+
+    $scope.buildMediaLibrary = function() {
+
+        // for some reason, the following line prevents the thumbs from appearing
+        // $scope.mediaLibraryThumbs = [];
+
+        // if this function is invoked on startup, $apply shouldn't be called as this code is already in a digest cycle
+        // $scope.$apply(function() {
+            $scope.buildImageItemThumbs();
+        // });
+    }
+
     mediaLibraryDragStartHandler = function(ev) {
         console.log("dragStart");
         // Add the target element's id to the data transfer object
-        ev.dataTransfer.setData("text", ev.target.id);
+        // ev.dataTransfer.setData("text", ev.target.id);
+        ev.dataTransfer.setData("text", ev.target.dataset.path);
         ev.dataTransfer.dropEffect = "copy";
     }
 
@@ -377,7 +380,8 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         ev.preventDefault();
 
         // Get the id of the target and add the moved element to the target's DOM
-        var data = ev.dataTransfer.getData("text");
+        var path = ev.dataTransfer.getData("text");
+        console.log("path of dropped item is: " + path);
         // ev.target.appendChild(document.getElementById(data));
     }
 
