@@ -336,6 +336,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         
         // need a thumb that tells users to drag / drop here
         var playlistThumb = {};
+        playlistThumb.id = "0";
         playlistThumb.thumbUrl = $scope.mediaLibraryThumbs[0].column0.thumbUrl;
         $scope.playlistThumbs.push(playlistThumb);
     }
@@ -355,7 +356,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         console.log("dragStart");
         // Add the target element's id to the data transfer object
         // ev.dataTransfer.setData("text", ev.target.id);
-        ev.dataTransfer.setData("text", ev.target.dataset.path);
+        ev.dataTransfer.setData("path", ev.target.dataset.path);
         ev.dataTransfer.dropEffect = "copy";
     }
 
@@ -379,12 +380,30 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
         ev.preventDefault();
 
-        var path = ev.dataTransfer.getData("text");
+        // get playlist item to add to playlist
+        var path = ev.dataTransfer.getData("path");
 
+        // specify playlist item to drop
         var playlistThumb = {};
         playlistThumb.thumbUrl = "public/" + path;
+
+        // figure out where to drop it
+        var id = ev.target.id;
+        var index = Number(id);
+
+        // playlistThumb.id = $scope.playlistThumbs.length.toString();
+        // $scope.playlistThumbs.push(playlistThumb);
+
+        // update scope variables
         $scope.$apply(function() {
-            $scope.playlistThumbs.push(playlistThumb);
+
+            // insert prior to index
+            $scope.playlistThumbs.splice(index, 0, playlistThumb);
+
+            // renumber thumb id's
+            $scope.playlistThumbs.forEach(function (thumb, thumbIndex) {
+               thumb.id = thumbIndex.toString();
+            });
         });
     }
 

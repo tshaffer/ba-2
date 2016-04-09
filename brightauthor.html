@@ -19,7 +19,7 @@
         <table>
             <tr ondrop="playlistDropHandler(event);" ondragover="playlistDragOverHandler(event);">
                 <td ng-repeat="thumb in playlistThumbs" style="width: 110px; height:110px;" >
-                    <img ng-src="{{thumb.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="playlistDragStartHandler(event);">
+                    <img id="{{thumb.id}}" ng-src="{{thumb.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="playlistDragStartHandler(event);">
                 </td>
             </tr>
         </table>
