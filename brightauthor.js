@@ -367,10 +367,33 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         });
     }
 
-    dragstart_handler = function(ev) {
+    mediaLibraryDragStartHandler = function(ev) {
         console.log("dragStart");
         // Add the target element's id to the data transfer object
         ev.dataTransfer.setData("text", ev.target.id);
+        ev.dataTransfer.dropEffect = "copy";
+    }
+
+    playlistDragStartHandler = function(ev) {
+        console.log("dragStart");
+        // Add the target element's id to the data transfer object
+        ev.dataTransfer.setData("text", ev.target.id);
+        ev.dataTransfer.dropEffect = "move";
+    }
+
+    playlistDragOverHandler = function(ev) {
+        console.log("playlistDragOverHandler");
+        ev.preventDefault();
+        // Set the dropEffect to move
+        ev.dataTransfer.dropEffect = "move";
+    }
+
+    playlistDropHandler = function(ev) {
+        console.log("drop");
+        // ev.preventDefault();
+        // // Get the id of the target and add the moved element to the target's DOM
+        // var data = ev.dataTransfer.getData("text");
+        // ev.target.appendChild(document.getElementById(data));
     }
 
     $scope.buildMediaLibrary();
