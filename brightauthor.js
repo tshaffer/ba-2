@@ -335,7 +335,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         });
         
         // need a thumb that tells users to drag / drop here
-        playlistThumb = {};
+        var playlistThumb = {};
         playlistThumb.thumbUrl = $scope.mediaLibraryThumbs[0].column0.thumbUrl;
         $scope.playlistThumbs.push(playlistThumb);
     }
@@ -379,10 +379,13 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
         ev.preventDefault();
 
-        // Get the id of the target and add the moved element to the target's DOM
         var path = ev.dataTransfer.getData("text");
-        console.log("path of dropped item is: " + path);
-        // ev.target.appendChild(document.getElementById(data));
+
+        var playlistThumb = {};
+        playlistThumb.thumbUrl = "public/" + path;
+        $scope.$apply(function() {
+            $scope.playlistThumbs.push(playlistThumb);
+        });
     }
 
     $scope.buildMediaLibrary();
