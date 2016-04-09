@@ -388,17 +388,28 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         playlistThumb.thumbUrl = "public/" + path;
 
         // figure out where to drop it
+        //      get id of playlist item that was drop target
+        //      get offset that indicates how far over user dropped thumb
+        //      if offset > half of thumb width, add thumb after target; otherwise insert thumb before target
         var id = ev.target.id;
         var index = Number(id);
-
-        // playlistThumb.id = $scope.playlistThumbs.length.toString();
-        // $scope.playlistThumbs.push(playlistThumb);
+        var offset = ev.offsetX;
+        var insert = false;
+        if (offset < 50) {
+            insert = true;
+        }
 
         // update scope variables
         $scope.$apply(function() {
 
-            // insert prior to index
-            $scope.playlistThumbs.splice(index, 0, playlistThumb);
+            if (insert) {
+                // insert prior to index
+                $scope.playlistThumbs.splice(index, 0, playlistThumb);
+            }
+            else {
+                // add after index
+                $scope.playlistThumbs.splice(index + 1, 0, playlistThumb);
+            }
 
             // renumber thumb id's
             $scope.playlistThumbs.forEach(function (thumb, thumbIndex) {
