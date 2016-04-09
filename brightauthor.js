@@ -228,7 +228,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         // $scope.buildMediaLibrary();
     }
 
-    $scope.buildImageItemThumbs = function(files) {
+    $scope.buildImageItemThumbs = function() {
 
         var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
         var suffix = "jpg";
@@ -236,6 +236,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         var columnIndex = 0;
         var imageItemThumb = {};
 
+        var files = fs.readdirSync(dir);
         files.forEach(function(file) {
 
             var filePath = path.format({
@@ -252,11 +253,6 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
             var image = {};
 
             image.thumbUrl = "public/" + url;
-
-            // image.width = 125;
-            // image.height = 125;
-            // image.maxHeight = 125;
-            //console.log("width/height ratio is: " + (image.width / image.height).toString());
 
             var key = "image" + columnIndex.toString();
             imageItemThumb[key] = image;
@@ -275,33 +271,10 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         // for some reason, the following line prevents the thumbs from appearing
         // $scope.thumbs = [];
 
-
-        // get urls for thumbs
-        var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
-
-
-        var files = fs.readdirSync(dir);
-
         // if this function is invoked on startup, $apply shouldn't be called as this code is already in a digest cycle
         // $scope.$apply(function() {
-            $scope.buildImageItemThumbs(files);
+            $scope.buildImageItemThumbs();
         // });
-
-        // $scope.gridOptions.onRegisterApi = function(gridApi){
-        //     $scope.gridApi = gridApi;
-        //     gridApi.cellNav.on.navigate($scope,function(newRowCol, oldRowCol){
-        //         console.log('navigation event');
-        //     });
-        // };
-
-        // $scope.getCurrentSelection = function() {
-        //     var selectedThumbs = [];
-        //     var currentSelection = $scope.gridApi.cellNav.getCurrentSelection();
-        //     for (var i = 0; i < currentSelection.length; i++) {
-        //         selectedThumbs.push(currentSelection[i].row.entity[currentSelection[i].col.name]);
-        //     }
-        //     return selectedThumbs;
-        // };
     }
 
     function openProject() {
