@@ -3,6 +3,20 @@ body {
     height: 1000px;
 }
 
+.mediaLibraryThumbLbl {
+    font-size: 8pt;
+    text-align: center;
+    overflow: hidden;
+    width: 100px;
+}
+
+.mediaLibraryThumbImg {
+    width: 100px;
+    height: 100px;
+    border-style: solid;
+    border-width: 2px;
+}
+
 .container{
     display: flex;
 }
@@ -47,3 +61,5 @@ body {
     /*height: 100px;*/
     /*margin: 10px;*/
 /*}*/
+
+img.solid {border-style: solid;}

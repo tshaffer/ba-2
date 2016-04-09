@@ -320,6 +320,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
             thumb.id = thumbCount.toString();
             thumb.thumbUrl = "public/" + url;
             thumb.path = url;
+            thumb.fileName = file;
 
             thumbCount++;
 
@@ -338,6 +339,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         var playlistThumb = {};
         playlistThumb.id = "0";
         playlistThumb.thumbUrl = $scope.mediaLibraryThumbs[0].column0.thumbUrl;
+        playlistThumb.stateName = "Drop item here";
         $scope.playlistThumbs.push(playlistThumb);
     }
 
