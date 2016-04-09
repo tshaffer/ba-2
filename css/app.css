@@ -3,18 +3,38 @@ body {
     height: 1000px;
 }
 
+.mediaLibraryTable {
+    background: #dddddd;
+}
+
+.mediaLibraryThumbDiv {
+    margin: 4px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #f2f2f2;
+    width: 110px;
+    height:130px;
+    min-width: 110px;
+    max-height: 130px;
+    background: #f2f2f2;
+}
+
+.mediaLibraryThumbBox {
+}
+
 .mediaLibraryThumbLbl {
     font-size: 8pt;
     text-align: center;
     overflow: hidden;
     width: 100px;
+    margin-bottom: 0px;
+    padding: 2px;
 }
 
 .mediaLibraryThumbImg {
-    width: 100px;
-    height: 100px;
-    border-style: solid;
-    border-width: 2px;
+    width: 108px;
+    height: 108px;
+    padding: 4px;
 }
 
 .container{
