@@ -1,7 +1,8 @@
 angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', function($scope ) {
 
-    $scope.thumbs = [];
-
+    $scope.mediaLibraryThumbs = [];
+    $scope.playlistThumbs = [];
+    
     console.log("ba.js invoked");
 
     const remote = require('electron').remote;
@@ -233,6 +234,7 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
         var dir = '/Users/tedshaffer/Documents/Projects/electron/ba-2/public';
         var suffix = "jpg";
 
+        var thumbCount = 0;
         var columnIndex = 0;
         var imageItemThumb = {};
 
@@ -252,6 +254,8 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
             var thumb = {};
 
+            thumb.id = thumbCount.toString();
+            thumbCount++;
             thumb.thumbUrl = "public/" + url;
 
             var keyColumn = "column" + columnIndex.toString();
@@ -259,17 +263,22 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
             columnIndex++;
 
             if ((columnIndex % numColumns) == 0) {
-                $scope.thumbs.push(imageItemThumb);
+                $scope.mediaLibraryThumbs.push(imageItemThumb);
                 imageItemThumb = {};
                 columnIndex = 0;
             }
         });
+        
+        // need a thumb that tells users to drag / drop here
+        playlistThumb = {};
+        playlistThumb.thumbUrl = $scope.mediaLibraryThumbs[0].column0.thumbUrl;
+        $scope.playlistThumbs.push(playlistThumb);
     }
 
     $scope.buildMediaLibrary = function() {
 
         // for some reason, the following line prevents the thumbs from appearing
-        // $scope.thumbs = [];
+        // $scope.mediaLibraryThumbs = [];
 
         // if this function is invoked on startup, $apply shouldn't be called as this code is already in a digest cycle
         // $scope.$apply(function() {
@@ -362,10 +371,13 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
     }
 
     playlistDropHandler = function(ev) {
+        
         console.log("drop");
-        // ev.preventDefault();
-        // // Get the id of the target and add the moved element to the target's DOM
-        // var data = ev.dataTransfer.getData("text");
+
+        ev.preventDefault();
+
+        // Get the id of the target and add the moved element to the target's DOM
+        var data = ev.dataTransfer.getData("text");
         // ev.target.appendChild(document.getElementById(data));
     }
 
