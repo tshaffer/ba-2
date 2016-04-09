@@ -250,12 +250,12 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
             var url = path.relative(dir, filePath);
             var filePath = filePath;
 
-            var image = {};
+            var thumb = {};
 
-            image.thumbUrl = "public/" + url;
+            thumb.thumbUrl = "public/" + url;
 
-            var key = "image" + columnIndex.toString();
-            imageItemThumb[key] = image;
+            var keyColumn = "column" + columnIndex.toString();
+            imageItemThumb[keyColumn] = thumb;
             columnIndex++;
 
             if ((columnIndex % numColumns) == 0) {

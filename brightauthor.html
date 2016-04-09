@@ -5,10 +5,10 @@
         <table>
             <tr ng-repeat="thumb in thumbs">
                 <td style="width: 110px; height:110px;min-width: 110px;">
-                    <img ng-src="{{thumb.image0.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="mediaLibraryDragStartHandler(event);">
+                    <img ng-src="{{thumb.column0.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="mediaLibraryDragStartHandler(event);">
                 </td>
                 <td style="width: 110px; height:110px;">
-                    <img ng-src="{{thumb.image1.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="mediaLibraryDragStartHandler(event);">
+                    <img ng-src="{{thumb.column1.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="mediaLibraryDragStartHandler(event);">
                 </td>
             </tr>
         </table>
@@ -19,7 +19,7 @@
         <table>
             <tr ondrop="playlistDropHandler(event);" ondragover="playlistDragOverHandler(event);">
                 <td ng-repeat="thumb in thumbs" style="width: 110px; height:110px;" >
-                    <img ng-src="{{thumb.image0.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="playlistDragStartHandler(event);">
+                    <img ng-src="{{thumb.column0.thumbUrl}}" height="100" width="100" draggable="true" ondragstart="playlistDragStartHandler(event);">
                 </td>
             </tr>
         </table>
