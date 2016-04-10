@@ -266,17 +266,20 @@ angular.module('brightauthor').controller('brightauthorCtrl', ['$scope', functio
 
     function parseProjectFile(xml) {
 
-        parseXML(xml, function (err, result) {
+        parseXML(xml, function (err, bpfAsJson) {
             if (err) {
                 console.log(err);
                 return;
             }
-            parseBPF(result);
+            parseBPF(bpfAsJson);
         });
     };
 
     function parseBPF(signAsJSON) {
 
+        var sign = new Sign();
+        sign.parse(signAsJSON);
+        
         $scope.$apply( function() {
             $scope.signName = signAsJSON.BrightAuthor.meta[0].name[0];
 
