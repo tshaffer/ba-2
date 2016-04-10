@@ -1,0 +1,8 @@
+.idea
+node_modules
+bower_components
+lib
+brightAuthor/model/*.js
+brightAuthor/model/*.map
+brightAuthor/model/*/*.js
+brightAuthor/model/*/*.map
