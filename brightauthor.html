@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="fixed">
+    <div class="mediaLibraryDiv">
         <p>Media Library:</p>
 
         <table class="mediaLibraryTable">
@@ -20,7 +20,7 @@
         </table>
     </div>
 
-    <div class="flex-item" style="margin-left: 8px;">
+    <div class="playlistDiv" >
         Zone 1: Video or Images: Playlist
         <ul class="flex-container wrap">
             <li ng-repeat="thumb in playlistThumbs" class="flex-item mediaLibraryThumbDiv" ondrop="playlistDropHandler(event);" ondragover="playlistDragOverHandler(event);">

@@ -3,6 +3,14 @@ body {
     height: 1000px;
 }
 
+.container{
+    /*display: flex;*/
+}
+.mediaLibraryDiv {
+    float: left;
+    width: 250px;
+}
+
 .mediaLibraryTable {
     background: #dddddd;
 }
@@ -34,11 +42,8 @@ body {
     padding: 4px;
 }
 
-.container{
-    display: flex;
-}
-.fixed{
-    width: 250px;
+.playlistDiv {
+    margin-left: 250px;
 }
 .photoGrid {
     width: 250px;
@@ -68,15 +73,5 @@ body {
     /*background: gold;*/
 }
 
-.flex-item{
-    /*flex-grow: 1;*/
-}
-
-/*.flex-item {*/
-    /*padding: 5px;*/
-    /*width: 100px;*/
-    /*height: 100px;*/
-    /*margin: 10px;*/
-/*}*/
 
 img.solid {border-style: solid;}
