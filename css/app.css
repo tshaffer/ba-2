@@ -4,8 +4,9 @@ body {
 }
 
 .container{
-    /*display: flex;*/
+    margin-left: 0;
 }
+
 .mediaLibraryDiv {
     float: left;
     width: 250px;
