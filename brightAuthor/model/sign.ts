@@ -1,6 +1,7 @@
 /**
  * Created by tedshaffer on 4/10/16.
  */
+
 class Sign {
 
     name: string;
@@ -37,3 +38,4 @@ class Sign {
     }
 }
 
+import { Zone } from "./zones/zone";

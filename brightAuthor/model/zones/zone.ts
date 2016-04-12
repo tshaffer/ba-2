@@ -24,3 +24,6 @@ class Zone {
     }
 
 }
+
+export  { Zone };
+
