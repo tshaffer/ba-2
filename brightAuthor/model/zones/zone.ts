@@ -11,13 +11,18 @@ class Zone {
     //     this.name = name;
     // }
 
+    static getType = function() {
+    
+        return "VideoOrImages";
+    };
+    
     constructor() {
         this.name = "";
     }
 
     parse(zoneAsJSON) {
 
-        console.log("pizzza");
+        console.log("Zone::parse");
         
         let zoneAsMetadata = zoneAsJSON;
 

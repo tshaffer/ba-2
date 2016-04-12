@@ -2,6 +2,7 @@
  * Created by tedshaffer on 4/10/16.
  */
 import { Zone } from "./zones/zone";
+import { VideoOrImagesZone } from "./zones/videoOrImagesZone";
 
 class Sign {
 
@@ -32,7 +33,14 @@ class Sign {
         // TODO correct parsing for multiple zones
         sign.zones.forEach( function(zoneAsJSONArray){
             let zoneAsJSON = zoneAsJSONArray.zone[0];
-            var zone = new Zone();
+            
+            let zone = null;
+            let zoneType = Zone.getType();
+            if (zoneType == "VideoOrImages") {
+                zone = new VideoOrImagesZone();
+            }
+            // var zone = new Zone();
+            
             zone.parse(zoneAsJSON);
             self.zoneList.push(zone);
         });
