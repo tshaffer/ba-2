@@ -1,6 +1,8 @@
 /**
  * Created by tedshaffer on 4/10/16.
  */
+import { Zone } from "./zones/zone";
+
 class Sign {
 
     name: string;

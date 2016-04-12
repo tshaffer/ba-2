@@ -1,6 +1,8 @@
 /**
  * Created by tedshaffer on 4/10/16.
  */
+export { Zone };
+
 class Zone {
 
     name: string;
@@ -20,7 +22,7 @@ class Zone {
         let zoneAsMetadata = zoneAsJSON;
 
         this.name = zoneAsMetadata.name[0];
-
     }
 
 }
+
